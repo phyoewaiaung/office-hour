@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
-function App() {
+export default function App() {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  function calculateTimeLeft() {
+    const now = new Date();
+    const currentTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      18,
+      0,
+      0
+    ); // Today at 6 PM
+    if (now > currentTime) {
+      currentTime.setDate(currentTime.getDate() + 1); // If it's already past 6 PM, set to next day 6 PM
+    }
+
+    const difference = currentTime - now;
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <h1>အလုပ်လေးတွေမပီးသေးရင် မြန်မြန်လုပ်ကြပါရန်.......</h1>
+      {timeLeft.hours !== undefined ? (
+        <div>
+          <h2>
+            {`${timeLeft.hours} နာရီ ${timeLeft.minutes} မိနစ် ${timeLeft.seconds} စက္ကန့်`}
+          </h2>
+        </div>
+      ) : (
+        <h2>ရုံးဆင်းပြီ...</h2>
+      )}
+    </main>
   );
 }
-
-export default App;
