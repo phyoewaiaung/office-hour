@@ -42,16 +42,7 @@ export default function App() {
 
   return (
     <main>
-      <h1>အလုပ်လေးတွေမပီးသေးရင် မြန်မြန်လုပ်ကြပါရန်.......</h1>
-      {timeLeft.hours !== undefined ? (
-        <div>
-          <h2>
-            {`${timeLeft.hours} နာရီ ${timeLeft.minutes} မိနစ် ${timeLeft.seconds} စက္ကန့်`}
-          </h2>
-        </div>
-      ) : (
         <h2>ရုံးဆင်းပြီ...</h2>
-      )}
     </main>
   );
 }
